@@ -14,25 +14,25 @@ const render = require("./lib/htmlRenderer");
 const questions = () =>
     inquirer.prompt([
         {
-            type: 'input',
-            name: 'name',
-            message: 'Name: ',
+            type: "input",
+            name: "name",
+            message: "Name:",
         },
         {
-            type: 'input',
-            name: 'id',
-            message: 'ID#: ',
+            type: "input",
+            name: "id",
+            message: "ID#:",
         },
         {
-            type: 'input',
-            name: 'email',
-            message: 'Email Address: ',
+            type: "input",
+            name: "email",
+            message: "Email Address:",
         },
         {
-            type: 'list',
-            name: 'role',
-            message: 'Role: ',
-            choices: ['Manager', 'Engineer', 'Intern', 'None of the Above'],
+            type: "list",
+            name: "role",
+            message: "Role:",
+            choices: ["Manager", "Engineer", "Intern", "None of the Above"],
         },
     ])
         .then((data) => {
@@ -67,7 +67,37 @@ const managerQuest = () =>
             role = manager.getRole();
         });
 
-questions();
+const engineerQuest = () =>
+    inquirer.prompt([
+        {
+            type: "input",
+            name: "github",
+            prompt: "GitHub Account:"
+        },
+    ])
+    .then((data) => {
+        const engineer = new Engineer(data.github);
+        console.log(engineer);
+        github = engineer.getGithub();
+        role = engineer.getRole();
+    });
+
+    const internQuest = () =>
+    inquirer.prompt([
+        {
+            type: "input",
+            name: "school",
+            prompt: "School:"
+        },
+    ])
+    .then((data) => {
+        const intern = new Intern(data.school);
+        console.log(intern);
+        gitHub = intern.getSchool();
+        role = intern.getRole();
+    });
+
+        questions();
 
 
 // Write code to use inquirer to gather information about the development team members,
