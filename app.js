@@ -11,6 +11,14 @@ const outputPath = path.join(OUTPUT_DIR, "team.html");
 
 const render = require("./lib/htmlRenderer");
 
+// const renderFinal = () => {
+//     fs.writeFile(outputPath, render(employees), (err) =>
+//         err ? console.error(err) : console.log("Success!")
+//     );
+// }
+
+var employees = [];
+
 const questions = () =>
     inquirer.prompt([
         {
@@ -41,7 +49,7 @@ const questions = () =>
             name = employee.getName();
             id = employee.getId();
             email = employee.getEmail();
-            role = employee.getRole();
+            // role = employee.getRole();
 
             if (data.role === "Manager") {
                 managerQuest();
@@ -61,10 +69,10 @@ const managerQuest = () =>
         },
     ])
         .then((data) => {
-            const manager = new Manager(data.officeNumber);
+            const manager = new Manager(name, id, email, data.officeNumber);
             console.log(manager);
-            officeNumber = manager.getOfficeNumber();
-            role = manager.getRole();
+            employees.push(manager);
+            continueQuest();
         });
 
 const engineerQuest = () =>
@@ -75,14 +83,14 @@ const engineerQuest = () =>
             prompt: "GitHub Account:"
         },
     ])
-    .then((data) => {
-        const engineer = new Engineer(data.github);
-        console.log(engineer);
-        github = engineer.getGithub();
-        role = engineer.getRole();
-    });
+        .then((data) => {
+            const engineer = new Engineer(name, id, email, data.github);
+            console.log(engineer);
+            employees.push(engineer);
+            continueQuest();
+        });
 
-    const internQuest = () =>
+const internQuest = () =>
     inquirer.prompt([
         {
             type: "input",
@@ -90,15 +98,33 @@ const engineerQuest = () =>
             prompt: "School:"
         },
     ])
-    .then((data) => {
-        const intern = new Intern(data.school);
-        console.log(intern);
-        gitHub = intern.getSchool();
-        role = intern.getRole();
-    });
+        .then((data) => {
+            const intern = new Intern(name, id, email, data.school);
+            console.log(intern);
+            employees.push(intern);
+            continueQuest();
+        });
 
-        questions();
+const continueQuest = () =>
+    inquirer.prompt([
+        {
+            type: 'confirm',
+            name: 'continue',
+            message: 'Would you like to add another team member?'
+        },
+    ])
+        .then((data) => {
+            if (data.continue === true) {
+                console.log("confirmed");
+                questions();
+            } else {
+                fs.writeFile(outputPath, render(employees), (err) =>
+                    err ? console.error(err) : console.log("Success!")
+                );
+            }
+        });
 
+questions();
 
 // Write code to use inquirer to gather information about the development team members,
 // and to create objects for each team member (using the correct classes as blueprints!)
