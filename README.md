@@ -1,1 +1,9 @@
 # hill-employee-summary
+
+For this week's homework assignment, we created a dynamic employee summary page.  First, an Employee class was created with a constructor function to include name, id, and email as well as functions to call these properties.  Next, Manager, Engineer, and Intern subclasses extended the Employee class and were created with constructors to include role-specific properties (office number, github account, school) in the constructor function as well as a super that called the basic information from the Employee class.
+
+An inquirer function was created that prompted the user to input this basic information for Employees and then created a new class object with the data collected.  Additional inquirer functions were created to ask role-specific questions and then put into an if statement based on the role selected by the user.  This data was then linked to the class functions to return the correct input data when the function was called in order to pass npm tests.  Module.exports were created for each class and subclass to help link the js files.
+
+Once class objects were created for each employee, they were pushed to an employees array.  One last inquirer function was created to ask if the user needed to input another employee.  When yes was selected, the questions function was created and the whole process started over.  If no was selected, the render function was called with the employees array as the parameter in an fs.writeFile function in order to generate the team.html page.  Great success!
+
+Check out the deployed site <a href="https://hill1635.github.io/hill-employee-summary/">here</a>.
